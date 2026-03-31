@@ -113,14 +113,14 @@ async function run() {
   }
 
 
-    // চেক করা যে ইউজার আগে থেকেই ফেভারিট করেছে কিনা
+   
   const alreadyFavorited = await favoriteCollection.findOne({
     userEmail,
     reviewId: review._id
   });
 
   if (alreadyFavorited) {
-    return res.status(400).send({ message: "তুমি আগে থেকেই এই রিভিউ ফেভারিট করেছ" });
+    return res.status(400).send({ message: "Already Add in Favourite" });
   }
 
       const favoriteData = {
@@ -156,14 +156,7 @@ async function run() {
       res.send(favoriteReviews);
     });
 
-    // Remove favorite
-    app.delete("/favorites/:id", async (req, res) => {
-      const id = req.params.id;
-      const result = await favoriteCollection.deleteOne({
-        _id: new ObjectId(id),
-      });
-      res.send(result);
-    });
+    
 
     await client.db("admin").command({ ping: 1 });
     console.log(
